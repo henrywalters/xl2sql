@@ -15,7 +15,13 @@ export default class CSVParser implements ITableParser {
         const lines = content.split('\n');
         
         for (const line of lines) {
-            const cells = line.split(',');
+            const cells = line.replace('\r', '').replace('\\', '').split(',').map((cell) => {
+                if (cell[0] === '"' && cell[cell.length - 1] === '"') {
+                    return cell.substr(1, cell.length - 2);
+                } else {
+                    return cell;
+                }
+            });
             if (!setHeader) {
                 header = cells;
                 setHeader = true;
