@@ -17,16 +17,22 @@ export const DataTypeHierarchy = {
     'boolean': ['int'],
     'date': [],
     'time': [],
-    'datetime': ['date', 'time']
+    'datetime': ['date', 'time'],
 }
 
 export default class DataCell {
     public readonly type: DataType;
     public readonly rawValue: string;
+    public readonly isNull: boolean;
 
     constructor(rawValue: string) {
         this.rawValue = rawValue;
         this.type = DataType.varchar;
+
+        if (this.rawValue.trim() === '') {
+            this.isNull = true;
+            return;
+        }
 
         if (HCore.Type.isSqlDatetime(this.rawValue)) {
             this.type = DataType.datetime;

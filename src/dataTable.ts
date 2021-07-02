@@ -2,6 +2,11 @@ import DataCell, { DataType } from "./dataCell";
 
 export type DataTableRow = {[header: string]: DataCell};
 
+export interface ColumnMetaInfo {
+    datatypes: DataType[];
+    isNullable: boolean;
+}
+
 export default class DataTable {
     public readonly header: string[];
     public readonly data: DataCell[][];
@@ -47,22 +52,31 @@ export default class DataTable {
         return typeof col === 'string' ? this.header.indexOf(col) : col;
     }
 
-    public getColumnDataTypes(col: number | string): DataType[] {
-        const types: DataType[] = [];
+    public getColumnInfo(col: number | string): ColumnMetaInfo {
+        const info: ColumnMetaInfo = {
+            datatypes: [],
+            isNullable: false,
+
+        }
         const index = this.getColumnIndex(col);
         for (let i = 0; i < this.data.length; i++) {
             let hasType = false;
-            for (const type of types) {
+
+            if (this.data[i][col].isNull) {
+                info.isNullable = true;
+            }
+
+            for (const type of info.datatypes) {
                 if (type === this.data[i][col].type) {
                     hasType = true;
                     break;
                 }
             }
             if (!hasType) {
-                types.push(this.data[i][col].type);
+                info.datatypes.push(this.data[i][col].type);
             }
         }
 
-        return types;
+        return info;
     }
 }

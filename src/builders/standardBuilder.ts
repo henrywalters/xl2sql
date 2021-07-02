@@ -7,9 +7,9 @@ export default class StandardBuilder implements ISqlBuilder {
         let columns = [];
 
         for (let i = 0; i < datatable.header.length; i++) {
-            const types = datatable.getColumnDataTypes(i);
+            const info = datatable.getColumnInfo(i);
             if (datatable.header[i].trim() !== '') {
-                columns.push(`${SqlUtils.toSnakeCase(datatable.header[i])} ${SqlUtils.getCommonType(types)}`)
+                columns.push(`${SqlUtils.toSnakeCase(datatable.header[i])} ${SqlUtils.getCommonType(info.datatypes)} ${info.isNullable ? '' : ' not null'}`)
             }
             
         }
