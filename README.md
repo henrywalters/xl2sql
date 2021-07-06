@@ -25,7 +25,19 @@ npm install xl2sql --save
 
 ### CLI Usage
 
-Coming soon!
+The easiest way to use xl2sql is via the CLI. Here are the simple usage docs:
+
+```
+Usage: xl2sql [options]
+
+Options:
+  -f, --file <file>      File path to parse
+  -d, --directory <dir>  Directory to parse (default: "/home/henry/xl2sql/dist")
+  -r, --recursive        If no file is present, recurse all files in directory (default: false)
+  -o, --output <file>    Output queries to this file
+  -n, --dry-run          Grab the files to run without processing them. (default: false)
+  -h, --help             display help for command
+```
 
 ### Library Usage
 
