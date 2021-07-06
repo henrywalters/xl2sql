@@ -26,6 +26,6 @@
   "dependencies": {
     "cli-progress": "^3.9.0",
     "commander": "^8.0.0",
-    "hcore": "^1.0.20"
+    "hcore": "^1.0.22"
   }
 }
