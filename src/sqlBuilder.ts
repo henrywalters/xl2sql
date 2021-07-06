@@ -29,6 +29,16 @@ export default class SqlBuilder implements ISqlBuilder {
         return this.engine.createInsert(tableName, row);
     }
 
+    createInserts(tableName: string, datatable: DataTable): string {
+        let inserts = [];
+
+        for (let i = 0; i < datatable.data.length; i++) {
+            inserts.push(this.createInsert(tableName, datatable.datatable[i]));
+        }
+
+        return inserts.join(';\n');
+    }
+
     createFullQuery(tableName: string, datatable: DataTable): string {
         const createTable = this.createTable(tableName, datatable);
         let inserts = [];

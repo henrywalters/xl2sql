@@ -5,13 +5,13 @@ import ITableParser from "../iTableParser";
 export default class CSVParser implements ITableParser {
     public readonly fileTypes = [
         'text/csv',
+        'csv',
     ];
 
-    public async parse(file: File): Promise<DataTable> {
+    public async parse(content: string): Promise<DataTable> {
         let header = [];
         let data = [];
         let setHeader = false;
-        const content = await file.text();
         const lines = content.split('\n');
         
         for (const line of lines) {

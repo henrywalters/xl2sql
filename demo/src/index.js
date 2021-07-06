@@ -30,7 +30,7 @@ file.onUpload(async (file) => {
     `;
 
 
-    const dt = (await TableParser.parse(file));
+    const dt = (await TableParser.parseFile(file));
 
     console.log(dt.getHtml());
 

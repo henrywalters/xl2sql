@@ -11,12 +11,21 @@
     "demo-build": "cd demo && webpack && cd ..",
     "demo-watch": "cd demo && webpack --watch && cd .."
   },
+  "bin": {
+    "xl2sql": "bin/xl2sql",
+    "henrywalters20/xl2sql": "bin/xl2sql"
+  },
   "author": "Henry Walters",
   "license": "ISC",
   "devDependencies": {
+    "@types/cli-progress": "^3.9.1",
+    "@types/node": "^15.14.0",
+    "esm": "^3.2.25",
     "typescript": "^4.1.3"
   },
   "dependencies": {
-    "hcore": "^1.0.15"
+    "cli-progress": "^3.9.0",
+    "commander": "^8.0.0",
+    "hcore": "^1.0.20"
   }
 }
