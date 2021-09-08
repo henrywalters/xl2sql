@@ -27,4 +27,9 @@ export default class TableParser {
         const parser = this.getParser(ext);
         return parser.parse(content);   
     }
+
+    public static parseLine(ext: string, line: string): Promise<string[]> {
+        const parser = this.getParser(ext);
+        return parser.parseLine(line);
+    }
 }

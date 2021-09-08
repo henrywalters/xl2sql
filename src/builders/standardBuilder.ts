@@ -1,20 +1,20 @@
-import DataTable, { DataTableRow } from "../dataTable";
+import DataTable, { ColumnMetaData, DataTableRow } from "../dataTable";
 import { ISqlBuilder } from "../iSqlBuilder";
 import SqlUtils from "../sqlUtils";
 
 export default class StandardBuilder implements ISqlBuilder {
-    createTable(tableName: string, datatable: DataTable): string {
-        let columns = [];
+    createTable(tableName: string, columns: ColumnMetaData[]): string {
 
-        for (let i = 0; i < datatable.header.length; i++) {
-            const info = datatable.getColumnInfo(i);
-            if (datatable.header[i].trim() !== '') {
-                columns.push(`${SqlUtils.toSnakeCase(datatable.header[i])} ${SqlUtils.getCommonType(info.datatypes)}${info.isNullable ? '' : ' not null'}`)
+        const sqlColumns = [];
+
+        for (let i = 0; i < columns.length; i++) {
+            if (columns[i].name.trim() !== '') {
+                sqlColumns.push(`"${SqlUtils.toSnakeCase(columns[i].name)}" ${SqlUtils.getCommonType(columns[i].datatypes)}${columns[i].isNullable ? '' : ' not null'}`)
             }
             
         }
 
-        return `create table ${tableName} (${columns.join(', ')})`;
+        return `create table ${tableName} (${sqlColumns.join(', ')})`;
     }
 
     createInsert(tableName: string, row: DataTableRow): string {
@@ -22,10 +22,10 @@ export default class StandardBuilder implements ISqlBuilder {
         let vals = [];
 
         for (let col in row) {
-            cols.push(col);
+            cols.push(`"${SqlUtils.toSnakeCase(col)}"`);
             vals.push(`'${row[col].rawValue.replace("'", "''")}'`);
         }
-        return `insert into ${tableName} (${cols.join(', ')}) values (${vals.join(', ')})`;
+        return `insert into "${tableName}" (${cols.join(', ')}) values (${vals.join(', ')})`;
     }
 
 }

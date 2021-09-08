@@ -1,5 +1,5 @@
 import StandardBuilder from "./builders/standardBuilder";
-import DataTable, { DataTableRow } from "./dataTable";
+import DataTable, { ColumnMetaData, DataTableRow } from "./dataTable";
 import { ISqlBuilder } from "./iSqlBuilder";
 import SqlUtils from "./sqlUtils";
 
@@ -21,8 +21,8 @@ export default class SqlBuilder implements ISqlBuilder {
         this.engine = ENGINES[engine];
     }
 
-    createTable(tableName: string, datatable: DataTable): string {
-        return this.engine.createTable(tableName, datatable);
+    createTable(tableName: string, columns: ColumnMetaData[]): string {
+        return this.engine.createTable(tableName, columns);
     }
 
     createInsert(tableName: string, row: DataTableRow): string {
@@ -40,7 +40,7 @@ export default class SqlBuilder implements ISqlBuilder {
     }
 
     createFullQuery(tableName: string, datatable: DataTable): string {
-        const createTable = this.createTable(tableName, datatable);
+        const createTable = this.createTable(tableName, datatable.header.map((header, idx) => datatable.getColumnInfo(idx)));
         let inserts = [];
 
         for (let i = 0; i < datatable.data.length; i++) {

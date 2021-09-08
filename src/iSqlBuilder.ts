@@ -1,6 +1,6 @@
-import DataTable, { DataTableRow } from "./dataTable";
+import DataTable, { ColumnMetaData, DataTableRow } from "./dataTable";
 
 export interface ISqlBuilder {
-    createTable(tableName: string, datatable: DataTable): string;
-    createInsert(tableName: string, row: DataTableRow): string;
+    createTable(tableName: string, columns: ColumnMetaData[]): string;
+    createInsert(tableName: string, row: DataTableRow | string[]): string;
 }

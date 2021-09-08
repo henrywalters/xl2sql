@@ -2,9 +2,11 @@ import DataCell, { DataType } from "./dataCell";
 
 export type DataTableRow = {[header: string]: DataCell};
 
-export interface ColumnMetaInfo {
+export interface ColumnMetaData {
+    name: string;
     datatypes: DataType[];
     isNullable: boolean;
+    isUnique: boolean;
 }
 
 export default class DataTable {
@@ -52,13 +54,15 @@ export default class DataTable {
         return typeof col === 'string' ? this.header.indexOf(col) : col;
     }
 
-    public getColumnInfo(col: number | string): ColumnMetaInfo {
-        const info: ColumnMetaInfo = {
+    public getColumnInfo(col: number | string): ColumnMetaData {
+        const index = this.getColumnIndex(col);
+        const info: ColumnMetaData = {
             datatypes: [],
             isNullable: false,
-
+            isUnique: true,
+            name: this.header[index],
         }
-        const index = this.getColumnIndex(col);
+        
         for (let i = 0; i < this.data.length; i++) {
             let hasType = false;
 

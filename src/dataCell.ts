@@ -7,7 +7,7 @@ export enum DataType {
     boolean = 'boolean',
     date = 'date',
     time = 'time',
-    datetime = 'datetime',
+    datetime = 'timestamp',
 }
 
 export const DataTypeHierarchy = {
