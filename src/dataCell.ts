@@ -17,7 +17,7 @@ export const DataTypeHierarchy = {
     'boolean': ['int'],
     'date': [],
     'time': [],
-    'datetime': ['date', 'time'],
+    'timestamp': ['date', 'time'],
 }
 
 export default class DataCell {
@@ -53,5 +53,15 @@ export default class DataCell {
         } else if (HCore.Type.isBoolean(this.rawValue)) {
             this.type = DataType.boolean;
         } 
+    }
+
+    public get sqlDatetime(): string {
+        if (this.type !== DataType.datetime) {
+            throw new Error("Must be SQL Datetime");
+        }
+
+        const date = new Date(this.rawValue);
+
+        return date.toISOString().slice(0, 19).replace('T', ' ');
     }
 }

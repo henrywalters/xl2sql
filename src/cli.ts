@@ -8,6 +8,7 @@ import { FileDescription } from "hcore/dist/fileSystem";
 import * as cliProgress from 'cli-progress';
 import DataTableStream from "./dataTableStream";
 import DataCell from "./dataCell";
+import * as Inquirer from 'inquirer';
 
 const program = new Command();
 const builder = new xl2sql.SqlBuilder();
@@ -50,6 +51,38 @@ function outputLine(line: string) {
     }
 }
 
+async function choosePrimaryKey(tableName: string, headers: string[]): Promise<string> {
+    return new Promise((res, rej) => {
+
+        const possibleIdIndex = headers.findIndex((header) => {return header.indexOf('id') !== -1});
+        let defaultPK = void 0;
+
+        if (possibleIdIndex !== -1) {
+            defaultPK = headers[possibleIdIndex];
+        }
+
+        Inquirer.prompt([
+            {
+                type: 'list',
+                name: 'primaryKey',
+                message: `Choose the primary key for ${tableName}`,
+                choices: headers,
+                default: defaultPK
+            }
+        ]).then((answers) => {
+            console.log(answers);
+            res("");
+        }).catch((error) => {
+            if (error.isTtyError) {
+                console.log("TTY error");
+            } else {
+                console.log(error);
+            }
+            rej(error);
+        })
+    })
+}
+
 async function processStandard() {
 
     startProcess(files.sum());
@@ -84,7 +117,7 @@ async function processStream() {
     
         if (file.extension !== 'csv') continue;
 
-        console.log(file);
+        console.log(file.name);
 
         try {
 
@@ -119,6 +152,9 @@ async function processStream() {
                 const sqlColumns = {};
                 const cells = await xl2sql.TableParser.parseLine(file.extension, line);
                 for (let i = 0; i < cells.length; i++) {
+                    if (datatable.colIndexes.indexOf(i) === -1) {
+                        continue;
+                    }
                     const cell = new DataCell(cells[i]);
                     sqlColumns[datatable.header[i]] = cell;
                 }

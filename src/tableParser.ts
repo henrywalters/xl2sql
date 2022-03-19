@@ -1,9 +1,11 @@
 import DataTable from "./dataTable";
 import ITableParser from "./iTableParser";
 import CSVParser from "./parsers/csvParser";
+import JSONParser from "./parsers/jsonParser";
 
 const parsers = [
     new CSVParser(),
+    new JSONParser(),
 ]
 
 export default class TableParser {

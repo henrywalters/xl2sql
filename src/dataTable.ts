@@ -7,6 +7,9 @@ export interface ColumnMetaData {
     datatypes: DataType[];
     isNullable: boolean;
     isUnique: boolean;
+    isPrimary: boolean;
+    isForeign: boolean;
+    maxLength: number;
 }
 
 export default class DataTable {
@@ -49,7 +52,7 @@ export default class DataTable {
 
         return el;
     }
-
+    
     public getColumnIndex(col: number | string): number {
         return typeof col === 'string' ? this.header.indexOf(col) : col;
     }
@@ -60,24 +63,31 @@ export default class DataTable {
             datatypes: [],
             isNullable: false,
             isUnique: true,
+            isPrimary: false,
+            isForeign: false,
             name: this.header[index],
+            maxLength: 0,
         }
         
         for (let i = 0; i < this.data.length; i++) {
             let hasType = false;
 
-            if (this.data[i][col].isNull) {
+            if (this.data[i][index].isNull) {
                 info.isNullable = true;
             }
 
+            if (this.data[i][index].rawValue.length > info.maxLength) {
+                info.maxLength = this.data[i][index].rawValue.length;
+            }
+
             for (const type of info.datatypes) {
-                if (type === this.data[i][col].type) {
+                if (type === this.data[i][index].type) {
                     hasType = true;
                     break;
                 }
             }
             if (!hasType) {
-                info.datatypes.push(this.data[i][col].type);
+                info.datatypes.push(this.data[i][index].type);
             }
         }
 

@@ -30,13 +30,12 @@ export default class CSVParser implements ITableParser {
     }
 
     public async parseLine(line: string): Promise<string[]> {
-        line = line.replace('\r', '').replace('\\', '');
-
-        if (line[0] === '"' && line[line.length - 1] === '"') {
-            line = line.substr(1, line.length - 2);
-            return line.split('","').map((cell) => cell.replace('""', '"'));
-        }
-
-        return line.split(',');
+        const regex = /(?!\B"[^"]*),(?![^"]*"\B)/g;
+        return line.replace('\r', '').replace('\\', '').split(regex).map((cell) => {
+            if (cell[0] === '"' && cell[cell.length - 1] === '"') {
+                cell = cell.substr(1, cell.length - 2);
+            }
+            return cell;
+        });
     }
 }

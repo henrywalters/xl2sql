@@ -21,22 +21,22 @@ export default class SqlBuilder implements ISqlBuilder {
         this.engine = ENGINES[engine];
     }
 
-    createTable(tableName: string, columns: ColumnMetaData[]): string {
-        return this.engine.createTable(tableName, columns);
+    createTable(tableName: string, columns: ColumnMetaData[], databaseName?: string): string {
+        return this.engine.createTable(tableName, columns, databaseName);
     }
 
-    createInsert(tableName: string, row: DataTableRow): string {
-        return this.engine.createInsert(tableName, row);
+    createInsert(tableName: string, row: DataTableRow, databaseName?: string): string {
+        return this.engine.createInsert(tableName, row, databaseName);
     }
 
-    createInserts(tableName: string, datatable: DataTable): string {
+    createInserts(tableName: string, datatable: DataTable, databaseName?: string): string {
         let inserts = [];
 
         for (let i = 0; i < datatable.data.length; i++) {
-            inserts.push(this.createInsert(tableName, datatable.datatable[i]));
+            inserts.push(this.createInsert(tableName, datatable.datatable[i], databaseName));
         }
 
-        return inserts.join(';\n');
+        return inserts.join(';\n') + ';\n';
     }
 
     createFullQuery(tableName: string, datatable: DataTable): string {
