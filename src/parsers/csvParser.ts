@@ -5,8 +5,15 @@ import ITableParser from "../iTableParser";
 export default class CSVParser implements ITableParser {
     
     public readonly fileTypes = [
+        'text/plain',
         'text/csv',
         'csv',
+        'application/vnd.ms-excel',
+        'application/csv',
+        'application/x-csv',
+        'text/comma-separated-values',
+        'text/x-comma-separated-values',
+        'text/tab-separated-values'
     ];
 
     public async parse(content: string): Promise<DataTable> {

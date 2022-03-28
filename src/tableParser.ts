@@ -17,7 +17,7 @@ export default class TableParser {
             }
         }
 
-        throw new Error("Parser does not exist for this file type");
+        throw new Error("Parser does not exist for file type: " + extension);
     }
 
     public static async parseFile(file: File): Promise<DataTable> {
