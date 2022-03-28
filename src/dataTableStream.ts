@@ -1,4 +1,3 @@
-import { FileStream } from "hcore/dist/fileStream";
 import DataCell from "./dataCell";
 import { ColumnMetaData } from "./dataTable";
 

@@ -1,4 +1,4 @@
-import HCore from 'hcore';
+import Type from "hcore/dist/type";
 
 export enum DataType {
     varchar = 'varchar',
@@ -34,23 +34,23 @@ export default class DataCell {
             return;
         }
 
-        if (HCore.Type.isSqlDatetime(this.rawValue)) {
+        if (Type.isSqlDatetime(this.rawValue)) {
             this.type = DataType.datetime;
-        } else if (HCore.Type.isSqlDate(this.rawValue)) {
+        } else if (Type.isSqlDate(this.rawValue)) {
             this.type = DataType.date;
-        } else if (HCore.Type.isSqlTime(this.rawValue)) {
+        } else if (Type.isSqlTime(this.rawValue)) {
             this.type = DataType.time;
-        } else if (HCore.Type.isDatetime(this.rawValue)) {
+        } else if (Type.isDatetime(this.rawValue)) {
             this.type = DataType.datetime;
-        } else if (HCore.Type.isDate(this.rawValue)) {
+        } else if (Type.isDate(this.rawValue)) {
             this.type = DataType.date;
-        }else if (HCore.Type.isTime(this.rawValue)) {
+        }else if (Type.isTime(this.rawValue)) {
             this.type = DataType.time;
-        }else if (HCore.Type.isInt(this.rawValue)) {
+        }else if (Type.isInt(this.rawValue)) {
             this.type = DataType.int;
-        } else if (HCore.Type.isFloat(this.rawValue)) {
+        } else if (Type.isFloat(this.rawValue)) {
             this.type = DataType.float;
-        } else if (HCore.Type.isBoolean(this.rawValue)) {
+        } else if (Type.isBoolean(this.rawValue)) {
             this.type = DataType.boolean;
         } 
     }

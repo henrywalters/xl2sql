@@ -1,6 +1,6 @@
 {
   "name": "xl2sql",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "A library to convert Excel / CSV files into SQL statements with a high level of control.",
   "main": "dist/index.js",
   "scripts": {
